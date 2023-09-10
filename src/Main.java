@@ -1,9 +1,13 @@
-import primesGen.*;
+import primesGen.primesGen;
+import primesGen.primesGenVec;
 
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        if (args.length != 4) {
+            throw new IllegalArgumentException("Invalid arguments");
+        }
         int threads = Integer.parseInt(args[0]);
         byte methods = Byte.parseByte(args[1]);
         int n = Integer.parseInt(args[2]);
