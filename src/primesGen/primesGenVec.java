@@ -1,6 +1,9 @@
 package primesGen;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -112,6 +115,9 @@ public class primesGenVec extends primesGen {
         }
     }
 
+    public List<Integer> getPrimes() {
+        return primes;
+    }
 
     public void run() {
         switch (method) {

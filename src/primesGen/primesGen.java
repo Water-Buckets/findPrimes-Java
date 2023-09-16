@@ -11,16 +11,14 @@ public class primesGen {
     protected byte method;
 
     public primesGen(int u, byte m, String f) throws IOException {
-        uL = u;
+        this.uL = u;
         if (m >= 0 && m <= 4) {
-            method = m;
+            this.method = m;
         } else throw new IllegalArgumentException("Invaild method");
-        fileName = f;
-        file = new File(fileName);
-        if (!file.exists()) {
-            if (!file.createNewFile()) {
-                throw new RuntimeException("Unable to create new file: " + fileName);
-            }
+        this.fileName = f;
+        this.file = new File(fileName);
+        if (!file.exists() || !file.createNewFile()) {
+            throw new RuntimeException("Unable to create new file: " + fileName);
         }
     }
 
@@ -78,5 +76,9 @@ public class primesGen {
             case 1 -> eratosthenesSieve();
             case 3 -> sundaramSieve();
         }
+    }
+
+    private interface markMultiples {
+        // lambda features
     }
 }
