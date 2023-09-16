@@ -15,7 +15,7 @@ import java.util.Arrays;
  * Note: This class throws IOException if there is an error creating the file to which the prime numbers are written.
  * It also throws IllegalArgumentException if an invalid method is specified.
  */
-public class primesGen {
+public class primesGen implements Runnable {
     /**
      * The upper limit up to which prime numbers are to be generated.
      */
@@ -52,7 +52,7 @@ public class primesGen {
         } else throw new IllegalArgumentException("Invaild method");
         this.fileName = f;
         this.file = new File(fileName);
-        if (!file.exists() || !file.createNewFile()) {
+        if (!file.exists() && !file.createNewFile()) {
             throw new RuntimeException("Unable to create new file: " + fileName);
         }
     }
@@ -63,8 +63,7 @@ public class primesGen {
      * @throws IOException If there is an error writing to the file.
      */
     private void eratosthenesSieve() throws IOException {
-        OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8);
-        BufferedWriter output = new BufferedWriter(out);
+        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
         if (uL >= 2) {
             output.write(2 + " ");
         }
@@ -98,8 +97,7 @@ public class primesGen {
                 isPrime[j] = false;
             }
         }
-        OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8);
-        BufferedWriter output = new BufferedWriter(out);
+        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
         if (uL >= 2) {
             output.write(2 + " ");
         }
@@ -120,17 +118,27 @@ public class primesGen {
         return fileName;
     }
 
+    public File getFile() {
+        return file;
+    }
+
     /**
      * Initiates the generation of prime numbers using the specified method.
      *
-     * @throws IOException              If there is an error writing to the file.
+     * @throws RuntimeException         If there is an error writing to the file.
      * @throws IllegalArgumentException If an invalid method is specified.
      */
-    public void run() throws IOException {
-        switch (method) {
-            case 0, 2, 4 -> throw new IllegalArgumentException("Invalid method.");
-            case 1 -> eratosthenesSieve();
-            case 3 -> sundaramSieve();
+    public void run() {
+        try {
+            switch (method) {
+                case 0, 2, 4 -> throw new IllegalArgumentException("Invalid method.");
+                case 1 -> eratosthenesSieve();
+                case 3 -> sundaramSieve();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Please submit your issue at https://github.com/Water-Buckets/findPrimes-Java/issues");
+            throw new RuntimeException(e);
         }
     }
 

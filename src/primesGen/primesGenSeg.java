@@ -57,8 +57,7 @@ public class primesGenSeg extends primesGen {
                 isPrime[j - lL] = false;
             }
         }
-        OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8);
-        BufferedWriter output = new BufferedWriter(out);
+        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
         for (int i = (lL % 2 != 0 ? lL : lL + 1); i <= uL; i += 2) {
             if (isPrime[i - lL]) {
                 output.write(i + " ");
@@ -90,8 +89,7 @@ public class primesGenSeg extends primesGen {
                 }
             }
         }
-        OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8);
-        BufferedWriter output = new BufferedWriter(out);
+        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
         if (2 >= lL && 2 <= uL) {
             output.write(2 + " ");
         }
@@ -106,14 +104,20 @@ public class primesGenSeg extends primesGen {
     /**
      * Initiates the generation of prime numbers using the specified method.
      *
-     * @throws IOException              If there is an error writing to the file.
+     * @throws RuntimeException         If there is an error writing to the file.
      * @throws IllegalArgumentException If an invalid method is specified.
      */
-    public void run() throws IOException {
-        switch (method) {
-            case 0, 2, 4 -> throw new IllegalArgumentException("Invalid method.");
-            case 1 -> eratosthenesSieve();
-            case 3 -> sundaramSieve();
+    public void run() {
+        try {
+            switch (method) {
+                case 0, 2, 4 -> throw new IllegalArgumentException("Invalid method.");
+                case 1 -> eratosthenesSieve();
+                case 3 -> sundaramSieve();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Please submit your issue at https://github.com/Water-Buckets/findPrimes-Java/issues");
+            throw new RuntimeException(e);
         }
     }
 }

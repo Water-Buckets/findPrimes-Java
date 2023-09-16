@@ -1,7 +1,11 @@
 import primesGen.primesGen;
+import primesGen.primesGenSeg;
 import primesGen.primesGenVec;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -25,7 +29,7 @@ public class Main {
             } else if (threads > 1 && (methods == 0 || methods == 2 || methods == 4)) {
                 // yet to be done
             } else throw new IllegalArgumentException("Invalid arguments");
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             System.err.println("Please submit your issue at https://github.com/Water-Buckets/findPrimes-Java/issues");
             throw new RuntimeException(e);

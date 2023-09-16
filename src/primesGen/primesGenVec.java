@@ -171,17 +171,20 @@ public class primesGenVec extends primesGen {
         }
     }
 
+    public void output(BufferedWriter output) throws IOException {
+        for (var p : primes) {
+            output.write(p + " ");
+        }
+    }
+
     /**
      * Writes the generated prime numbers to a file.
      *
      * @throws IOException If there is an error writing to the file.
      */
     public void outputToFile() throws IOException {
-        OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8);
-        BufferedWriter output = new BufferedWriter(out);
-        for (var p : primes) {
-            output.write(p + " ");
-        }
+        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
+        output(output);
         output.close();
     }
 }
