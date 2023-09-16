@@ -9,13 +9,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * primesGenVec is a class that extends primesGen. It is used to generate prime numbers up to a given upper limit (uL) using specified methods.
+ * The generated prime numbers are stored in a List.
+ * The class supports five methods for generating prime numbers: Trial Division, the Sieve of Eratosthenes, the Sieve of Sundaram, Euler's Sieve and Incremental Sieve.
+ * The method to be used is specified by a byte value (0-4) passed to the constructor.
+ * The class also includes a method to retrieve the List of generated prime numbers and a method to write the prime numbers to a file.
+ */
 public class primesGenVec extends primesGen {
+    /**
+     * A List of generated prime numbers.
+     */
     List<Integer> primes = new ArrayList<>();
 
+    /**
+     * The constructor for the primesGenVec class.
+     *
+     * @param u The upper limit for prime number generation.
+     * @param m The method to be used for prime number generation.
+     * @param f The name of the file where the prime numbers will be written.
+     * @throws IllegalArgumentException If an invalid method is specified.
+     * @throws IOException              If there is an error creating the file.
+     */
     public primesGenVec(int u, byte m, String f) throws IOException {
         super(u, m, f);
     }
 
+    /**
+     * Implements the Trial Division algorithm for generating prime numbers.
+     */
     private void trialDivision() {
         if (uL >= 2) {
             primes.add(2);
@@ -37,6 +59,9 @@ public class primesGenVec extends primesGen {
         }
     }
 
+    /**
+     * Implements the Sieve of Eratosthenes for generating prime numbers.
+     */
     private void eratosthenesSieve() {
         if (uL >= 2) {
             primes.add(2);
@@ -54,6 +79,9 @@ public class primesGenVec extends primesGen {
         }
     }
 
+    /**
+     * Implements the Euler's Sieve for generating prime numbers.
+     */
     private void eulerSieve() {
         boolean[] isPrime = new boolean[uL + 1];
         Arrays.fill(isPrime, true);
@@ -70,6 +98,9 @@ public class primesGenVec extends primesGen {
         }
     }
 
+    /**
+     * Implements the Sieve of Sundaram for generating prime numbers.
+     */
     private void sundaramSieve() {
         int k = (uL - 1) / 2;
         boolean[] isPrime = new boolean[k + 1];
@@ -91,6 +122,9 @@ public class primesGenVec extends primesGen {
         }
     }
 
+    /**
+     * Implements the Incremental Sieve for generating prime numbers.
+     */
     private void incrementalSieve() {
         List<Integer> mp = new ArrayList<>();
         for (int i = 2; i < uL + 1; ++i) {
@@ -115,10 +149,18 @@ public class primesGenVec extends primesGen {
         }
     }
 
+    /**
+     * Returns the List of generated prime numbers.
+     *
+     * @return The List of prime numbers.
+     */
     public List<Integer> getPrimes() {
         return primes;
     }
 
+    /**
+     * Initiates the generation of prime numbers using the specified method.
+     */
     public void run() {
         switch (method) {
             case 0 -> trialDivision();
@@ -129,6 +171,11 @@ public class primesGenVec extends primesGen {
         }
     }
 
+    /**
+     * Writes the generated prime numbers to a file.
+     *
+     * @throws IOException If there is an error writing to the file.
+     */
     public void outputToFile() throws IOException {
         OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8);
         BufferedWriter output = new BufferedWriter(out);

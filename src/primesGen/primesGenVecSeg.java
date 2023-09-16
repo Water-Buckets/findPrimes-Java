@@ -5,11 +5,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This class extends the primesGenVec class and generates prime numbers in a given range using various methods.
+ * The methods include trial division, Eratosthenes sieve, Euler sieve, Sundaram sieve, and incremental sieve.
+ * The class also allows for pre-sieved primes to be used in the generation process.
+ */
 public class primesGenVecSeg extends primesGenVec {
+    /**
+     * A list of pre-sieved primes.
+     */
     private final List<Integer> preSievedPrimes;
+    /**
+     * The lower limit of the range.
+     */
     private int lL;
 
-
+    /**
+     * Constructor for the primesGenVecSeg class.
+     *
+     * @param l   The lower limit of the range.
+     * @param u   The upper limit of the range.
+     * @param pSP The list of pre-sieved primes.
+     * @param m   The method to be used for prime generation.
+     * @param f   The file to which the primes are to be written.
+     * @throws IOException If an I/O error occurs.
+     */
     public primesGenVecSeg(int l, int u, List<Integer> pSP, byte m, String f) throws IOException {
         super(u, m, f);
         if (l >= u) {
@@ -19,6 +39,9 @@ public class primesGenVecSeg extends primesGenVec {
         this.preSievedPrimes = pSP;
     }
 
+    /**
+     * This method generates primes using the trial division method.
+     */
     private void trialDivision() {
         if (lL <= 2 && uL >= 2) {
             primes.add(2);
@@ -43,6 +66,9 @@ public class primesGenVecSeg extends primesGenVec {
         }
     }
 
+    /**
+     * This method generates primes using the Eratosthenes sieve method.
+     */
     private void eratosthenesSieve() {
         boolean[] isPrime = new boolean[uL - lL + 1];
         Arrays.fill(isPrime, true);
@@ -59,6 +85,9 @@ public class primesGenVecSeg extends primesGenVec {
         }
     }
 
+    /**
+     * This method generates primes using the Euler sieve method.
+     */
     private void eulerSieve() {
         boolean[] isPrime = new boolean[uL - lL + 1];
         Arrays.fill(isPrime, true);
@@ -82,6 +111,9 @@ public class primesGenVecSeg extends primesGenVec {
         }
     }
 
+    /**
+     * This method generates primes using the Sundaram sieve method.
+     */
     private void sundaramSieve() {
         int newLL = (lL + 1) / 2;
         int newUL = (uL - 1) / 2;
@@ -111,6 +143,9 @@ public class primesGenVecSeg extends primesGenVec {
         }
     }
 
+    /**
+     * This method generates primes using the incremental sieve method.
+     */
     private void incrementalSieve() {
         primes = preSievedPrimes;
         List<Integer> mp = new ArrayList<>(primes.size());
@@ -144,7 +179,10 @@ public class primesGenVecSeg extends primesGenVec {
         }
         primes = results;
     }
-
+    
+    /**
+     * This method runs the prime generation process using the specified method.
+     */
     public void run() {
         switch (method) {
             case 0 -> trialDivision();

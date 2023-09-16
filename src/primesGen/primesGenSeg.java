@@ -8,11 +8,31 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This class extends the primesGen class and generates prime numbers in a given range using segmented sieve algorithms.
+ * It supports both the Eratosthenes and Sundaram sieve algorithms.
+ */
 public class primesGenSeg extends primesGen {
+    /**
+     * Lower limit of the range
+     */
     private final int lL;
+
+    /**
+     * List of pre-sieved primes
+     */
     private final List<Integer> preSievedPrimes;
 
-
+    /**
+     * Constructor for primesGenSeg class.
+     *
+     * @param l   Lower limit of the range
+     * @param u   Upper limit of the range
+     * @param pSP List of pre-sieved primes
+     * @param m   Mode of operation
+     * @param f   File name to write the output
+     * @throws IOException If an I/O error occurs
+     */
     public primesGenSeg(int l, int u, List<Integer> pSP, byte m, String f) throws IOException {
         super(u, m, f);
         if (l >= u) {
@@ -22,6 +42,12 @@ public class primesGenSeg extends primesGen {
         this.preSievedPrimes = pSP;
     }
 
+    /**
+     * This method implements the segmented version of the Eratosthenes sieve algorithm.
+     * It writes the prime numbers in the given range to the specified file.
+     *
+     * @throws IOException If an I/O error occurs
+     */
     private void eratosthenesSieve() throws IOException {
         boolean[] isPrime = new boolean[uL - lL + 1];
         Arrays.fill(isPrime, true);
@@ -41,6 +67,12 @@ public class primesGenSeg extends primesGen {
         output.close();
     }
 
+    /**
+     * This method implements the segmented version of the Sundaram sieve algorithm.
+     * It writes the prime numbers in the given range to the specified file.
+     *
+     * @throws IOException If an I/O error occurs
+     */
     private void sundaramSieve() throws IOException {
         int newLL = (lL + 1) / 2;
         int newUL = (uL - 1) / 2;
@@ -69,5 +101,19 @@ public class primesGenSeg extends primesGen {
             }
         }
         output.close();
+    }
+
+    /**
+     * Initiates the generation of prime numbers using the specified method.
+     *
+     * @throws IOException              If there is an error writing to the file.
+     * @throws IllegalArgumentException If an invalid method is specified.
+     */
+    public void run() throws IOException {
+        switch (method) {
+            case 0, 2, 4 -> throw new IllegalArgumentException("Invalid method.");
+            case 1 -> eratosthenesSieve();
+            case 3 -> sundaramSieve();
+        }
     }
 }
