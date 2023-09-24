@@ -164,11 +164,10 @@ public class primesGenVecSeg extends primesGenVec {
             }
             if (isPrime) {
                 primes.add(i);
-                results.add(i);
                 mp.add(i * i);
             }
         }
-        primes = results;
+        primes.removeAll(preSievedPrimes);
     }
 
     /**
