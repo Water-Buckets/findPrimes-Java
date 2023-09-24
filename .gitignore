@@ -30,3 +30,4 @@ bin/
 
 ### results ###
 primes.txt
+.temp*
