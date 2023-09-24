@@ -169,10 +169,13 @@ public class primesGenVec extends primesGen {
             case 3 -> sundaramSieve();
             case 4 -> incrementalSieve();
         }
+        if (!file.delete()) {
+            throw new RuntimeException("Failed to delete file: " + file);
+        }
     }
 
     public void output(BufferedWriter output) throws IOException {
-        for (var p : primes) {
+        for (Integer p : primes) {
             output.write(p + " ");
         }
     }
@@ -183,7 +186,7 @@ public class primesGenVec extends primesGen {
      * @throws IOException If there is an error writing to the file.
      */
     public void outputToFile() throws IOException {
-        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
+        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8));
         output(output);
         output.close();
     }

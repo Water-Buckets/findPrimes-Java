@@ -115,46 +115,37 @@ public class primesGenVecSeg extends primesGenVec {
      * This method generates primes using the Sundaram sieve method.
      */
     private void sundaramSieve() {
-        int newLL = (lL + 1) / 2;
-        int newUL = (uL - 1) / 2;
-
-        boolean[] isPrime = new boolean[newUL - newLL + 1];
+        final int nNew = (uL - 1) / 2;
+        boolean[] isPrime = new boolean[nNew + 1];
         Arrays.fill(isPrime, true);
 
-        int h = (int) ((Math.sqrt(1 + 2 * newUL) - 1) / 2) + 1;
 
-        for (int i = 1; i <= h; ++i) {
-            for (int j = i; j <= 2 * (newUL - i) / (2 * i + 1); ++j) {
-                int index = i + j + 2 * i * j;
-                if (index >= newLL && index <= newUL) {
-                    isPrime[index - newLL] = false;
-                }
+        for (int i = 1; i <= nNew; ++i) {
+            for (int j = i; (i + j + 2 * i * j) <= nNew; ++j) {
+                isPrime[i + j + 2 * i * j] = false;
             }
         }
-
-        if (2 >= lL && 2 <= uL) {
-            primes.add(2);
-        }
-
-        for (int i = 0; i <= newUL - newLL; ++i) {
+        for (int i = Math.max(lL / 2, 1); i <= nNew; ++i) {
             if (isPrime[i]) {
-                primes.add(2 * (i + newLL) + 1);
+                primes.add(2 * i + 1);
             }
         }
     }
 
     /**
      * This method generates primes using the incremental sieve method.
+     * Unfixed bugs.
      */
     private void incrementalSieve() {
-        primes = preSievedPrimes;
+        primes.addAll(preSievedPrimes);
         List<Integer> mp = new ArrayList<>(primes.size());
-        List<Integer> results = new ArrayList<>();
+        mp.addAll(primes);
 
         // Initialize the multiples of pre-sieved primes
         for (int k = 0; k < primes.size(); ++k) {
-            mp.set(k, ((lL + primes.get(k) - 1) / primes.get(k)) * primes.get(k));
+            mp.add(k, ((lL + primes.get(k) - 1) / primes.get(k)) * primes.get(k));
         }
+        List<Integer> results = new ArrayList<>(primes.size());
 
         for (int i = lL; i <= uL; ++i) {
             boolean isPrime = true;
@@ -164,7 +155,7 @@ public class primesGenVecSeg extends primesGenVec {
                     break;
                 }
                 while (mp.get(k) < i) {
-                    mp.set(k, primes.get(k));
+                    mp.set(k, mp.get(k) + primes.get(k));
                 }
                 if (mp.get(k) == i) {
                     isPrime = false;
@@ -179,7 +170,7 @@ public class primesGenVecSeg extends primesGenVec {
         }
         primes = results;
     }
-    
+
     /**
      * This method runs the prime generation process using the specified method.
      */
@@ -190,6 +181,9 @@ public class primesGenVecSeg extends primesGenVec {
             case 2 -> eulerSieve();
             case 3 -> sundaramSieve();
             case 4 -> incrementalSieve();
+        }
+        if (!file.delete()) {
+            throw new RuntimeException("Failed to delete file: " + file);
         }
     }
 }

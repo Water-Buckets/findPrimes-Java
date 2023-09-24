@@ -63,7 +63,7 @@ public class primesGen implements Runnable {
      * @throws IOException If there is an error writing to the file.
      */
     private void eratosthenesSieve() throws IOException {
-        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
+        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8));
         if (uL >= 2) {
             output.write(2 + " ");
         }
@@ -97,7 +97,7 @@ public class primesGen implements Runnable {
                 isPrime[j] = false;
             }
         }
-        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
+        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8));
         if (uL >= 2) {
             output.write(2 + " ");
         }

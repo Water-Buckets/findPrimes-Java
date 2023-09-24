@@ -57,7 +57,7 @@ public class primesGenSeg extends primesGen {
                 isPrime[j - lL] = false;
             }
         }
-        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
+        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8));
         for (int i = (lL % 2 != 0 ? lL : lL + 1); i <= uL; i += 2) {
             if (isPrime[i - lL]) {
                 output.write(i + " ");
@@ -73,29 +73,20 @@ public class primesGenSeg extends primesGen {
      * @throws IOException If an I/O error occurs
      */
     private void sundaramSieve() throws IOException {
-        int newLL = (lL + 1) / 2;
-        int newUL = (uL - 1) / 2;
-
-        boolean[] isPrime = new boolean[newUL - newLL + 1];
+        final int nNew = (uL - 1) / 2;
+        boolean[] isPrime = new boolean[nNew + 1];
         Arrays.fill(isPrime, true);
 
-        int h = (int) ((Math.sqrt(1 + 2 * newUL) - 1) / 2) + 1;
 
-        for (int i = 1; i <= h; ++i) {
-            for (int j = i; j <= 2 * (newUL - i) / (2 * i + 1); ++j) {
-                int index = i + j + 2 * i * j;
-                if (index >= newLL && index <= newUL) {
-                    isPrime[index - newLL] = false;
-                }
+        for (int i = 1; i <= nNew; ++i) {
+            for (int j = i; (i + j + 2 * i * j) <= nNew; ++j) {
+                isPrime[i + j + 2 * i * j] = false;
             }
         }
-        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_8));
-        if (2 >= lL && 2 <= uL) {
-            output.write(2 + " ");
-        }
-        for (int i = 0; i <= newUL - newLL; ++i) {
+        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8));
+        for (int i = Math.max(lL / 2, 1); i <= nNew; ++i) {
             if (isPrime[i]) {
-                output.write((2 * (i + newLL) + 1) + " ");
+                output.write((2 * i + 1) + " ");
             }
         }
         output.close();
