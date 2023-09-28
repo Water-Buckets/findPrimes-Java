@@ -36,7 +36,25 @@ public class primesGenVec extends primesGen {
     }
 
     /**
-     * Implements the Trial Division algorithm for generating prime numbers.
+     * Implements the Trial Division algorithm for finding all prime numbers up to a given limit.
+     *
+     * <p>This method generates all prime numbers up to the given upper limit (uL) and stores them in a list.
+     * It works by iteratively checking each number for divisibility by all previously found prime numbers.
+     * If a number is not divisible by any of the previously found prime numbers, it is considered prime and added to the list.
+     * The algorithm only checks odd numbers as even numbers (except 2) are not prime.
+     *
+     * <p>Time Complexity: O(n^2), where n is the upper limit of numbers to check for primality.
+     * However, the actual time complexity is less than this due to the break condition in the inner loop.
+     *
+     * <p>Space Complexity: O(n), where n is the upper limit of numbers to check for primality.
+     *
+     * <p>Algorithm Characteristics:
+     * - Uses the mathematical property of prime numbers and divisibility.
+     * - Uses a list (primes) to keep track of prime numbers.
+     *
+     * <p>Limitations:
+     * - The upper limit (uL) of numbers to check for primality must fit in an integer data type.
+     * - This method requires enough memory to hold a list of size 'uL'.
      */
     private void trialDivision() {
         if (uL >= 2) {
@@ -60,7 +78,23 @@ public class primesGenVec extends primesGen {
     }
 
     /**
-     * Implements the Sieve of Eratosthenes for generating prime numbers.
+     * Implements the Sieve of Eratosthenes algorithm for finding all prime numbers up to a given limit.
+     *
+     * <p>This method generates all prime numbers up to the given upper limit (uL) and stores them in a list.
+     * It works by iteratively marking the multiples of each prime number, starting from 2, as composite (non-prime).
+     * It only checks odd numbers as even numbers (except 2) are not prime.
+     *
+     * <p>Time Complexity: O(n log(log n)), where n is the upper limit of numbers to check for primality.
+     *
+     * <p>Space Complexity: O(n), where n is the upper limit of numbers to check for primality.
+     *
+     * <p>Algorithm Characteristics:
+     * - Uses the mathematical property of prime numbers and their multiples.
+     * - Uses a boolean array (isPrime) to keep track of prime numbers.
+     *
+     * <p>Limitations:
+     * - The upper limit (uL) of numbers to check for primality must fit in an integer data type.
+     * - This method requires enough memory to hold a boolean array of size 'uL' and a list of size 'uL'.
      */
     private void eratosthenesSieve() {
         if (uL >= 2) {
@@ -80,7 +114,25 @@ public class primesGenVec extends primesGen {
     }
 
     /**
-     * Implements the Euler's Sieve for generating prime numbers.
+     * Implements the Euler's Sieve algorithm for finding all prime numbers up to a given limit.
+     *
+     * <p>This method generates all prime numbers up to the given upper limit (uL) and stores them in a list.
+     * It works by first adding each number to the list of primes if it is prime, then for each prime number in the list,
+     * it marks the multiples of that prime number as composite (non-prime).
+     * It stops marking multiples when the current number is divisible by the prime or when the multiple exceeds the upper limit.
+     *
+     * <p>Time Complexity: Approximately O(n), where n is the upper limit of numbers to check for primality.
+     * The exact time complexity is hard to determine due to the break condition in the inner loop, but it is more efficient than a simple Sieve of Eratosthenes.
+     *
+     * <p>Space Complexity: O(n), where n is the upper limit of numbers to check for primality.
+     *
+     * <p>Algorithm Characteristics:
+     * - Uses the mathematical property of prime numbers and their multiples.
+     * - Uses a boolean array (isPrime) to keep track of prime numbers.
+     *
+     * <p>Limitations:
+     * - The upper limit (uL) of numbers to check for primality must fit in an integer data type.
+     * - This method requires enough memory to hold a boolean array of size 'uL' and a list of size 'uL'.
      */
     private void eulerSieve() {
         boolean[] isPrime = new boolean[uL + 1];
@@ -99,7 +151,24 @@ public class primesGenVec extends primesGen {
     }
 
     /**
-     * Implements the Sieve of Sundaram for generating prime numbers.
+     * Implements the Sieve of Sundaram algorithm for finding all prime numbers up to a given limit.
+     *
+     * <p>This method generates all prime numbers up to the given upper limit (uL) and stores them in a list.
+     * The Sieve of Sundaram works by eliminating certain numbers of the form i + j + 2ij where 1 <= i <= j from the list
+     * of natural numbers 1, 2, ..., n. The remaining numbers are doubled and incremented by one, giving all
+     * the odd prime numbers (and 2) below 2n + 2.
+     *
+     * <p>Time Complexity: O(n log n), where n is the upper limit of numbers to check for primality.
+     *
+     * <p>Space Complexity: O(n), where n is the upper limit of numbers to check for primality.
+     *
+     * <p>Algorithm Characteristics:
+     * - Uses the mathematical property of prime numbers.
+     * - Uses a boolean array (isPrime) to keep track of prime numbers.
+     *
+     * <p>Limitations:
+     * - The upper limit (uL) of numbers to check for primality must fit in an integer data type.
+     * - This method requires enough memory to hold a boolean array of size 'uL' and a list of size 'uL'.
      */
     private void sundaramSieve() {
         int k = (uL - 1) / 2;
@@ -123,7 +192,25 @@ public class primesGenVec extends primesGen {
     }
 
     /**
-     * Implements the Incremental Sieve for generating prime numbers.
+     * Implements the Incremental Sieve algorithm for finding all prime numbers up to a given limit.
+     *
+     * <p>This method generates all prime numbers up to the given upper limit (uL) and stores them in a list.
+     * It works by iterating over each number up to the upper limit and checking if it is divisible by any of the previously found primes.
+     * If it is not divisible by any of the primes, it is a prime number and is added to the list of primes.
+     * It also maintains a list of multiples of primes (mp), which is used to skip the multiples of primes when checking for primality.
+     *
+     * <p>Time Complexity: O(n^1.5), where n is the upper limit of numbers to check for primality. This is because for each number up to n,
+     * it checks divisibility by numbers up to sqrt(n).
+     *
+     * <p>Space Complexity: O(n), where n is the upper limit of numbers to check for primality.
+     *
+     * <p>Algorithm Characteristics:
+     * - Uses the mathematical property of prime numbers.
+     * - Uses a list to keep track of prime numbers and their multiples.
+     *
+     * <p>Limitations:
+     * - The upper limit (uL) of numbers to check for primality must fit in an integer data type.
+     * - This method requires enough memory to hold two lists of size 'uL'.
      */
     private void incrementalSieve() {
         List<Integer> mp = new ArrayList<>();
@@ -174,6 +261,12 @@ public class primesGenVec extends primesGen {
         }
     }
 
+    /**
+     * Writes the generated prime numbers to a BufferedWriter.
+     *
+     * @param output the BufferedWriter to be output.
+     * @throws IOException the io exception
+     */
     public void output(BufferedWriter output) throws IOException {
         for (Integer p : primes) {
             output.write(p + " ");
@@ -186,7 +279,7 @@ public class primesGenVec extends primesGen {
      * @throws IOException If there is an error writing to the file.
      */
     public void outputToFile() throws IOException {
-        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8));
+        BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName, false), StandardCharsets.UTF_8));
         output(output);
         output.close();
     }

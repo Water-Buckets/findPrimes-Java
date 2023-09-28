@@ -58,9 +58,27 @@ public class primesGen implements Runnable {
     }
 
     /**
-     * Implements the Sieve of Eratosthenes for generating prime numbers.
+     * Implements the Sieve of Eratosthenes algorithm for finding all prime numbers up to a given limit.
      *
-     * @throws IOException If there is an error writing to the file.
+     * <p>This method generates all prime numbers up to the given upper limit (uL) and writes them into a file.
+     * It works by iteratively marking the multiples of each prime number, starting from 2, as composite (non-prime).
+     * It only checks odd numbers as even numbers (except 2) are not prime.
+     * The output is a file with all prime numbers up to the given limit.
+     *
+     * <p>Time Complexity: O(n log(log n)), where n is the upper limit of numbers to check for primality.
+     *
+     * <p>Space Complexity: O(n), where n is the upper limit of numbers to check for primality.
+     *
+     * <p>Algorithm Characteristics:
+     * - Uses the mathematical property of prime numbers and their multiples.
+     * - Uses a boolean array (isPrime) to keep track of prime numbers.
+     *
+     * <p>Limitations:
+     * - The upper limit (uL) of numbers to check for primality must fit in an integer data type.
+     * - This method requires enough memory to hold a boolean array of size 'uL'.
+     * - The algorithm writes the result to a file, so it requires file write permissions and enough disk space.
+     *
+     * @throws IOException if an I/O error occurs when writing to the file
      */
     private void eratosthenesSieve() throws IOException {
         BufferedWriter output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, false), StandardCharsets.UTF_8));
@@ -82,10 +100,29 @@ public class primesGen implements Runnable {
     }
 
     /**
-     * Implements the Sieve of Sundaram for generating prime numbers.
+     * Implements the Sieve of Sundaram algorithm for finding all prime numbers up to a given limit.
      *
-     * @throws IOException If there is an error writing to the file.
+     * <p>This method generates all prime numbers up to the given upper limit (uL) and writes them into a file.
+     * The Sieve of Sundaram works by eliminating certain numbers of the form i + j + 2ij where 1 <= i <= j from the list
+     * of natural numbers 1, 2, ..., n. The remaining numbers are then doubled and incremented by one, yielding all
+     * the odd prime numbers (and 2) below 2n + 2.
+     *
+     * <p>Time Complexity: O(n log n), where n is the upper limit of numbers to check for primality.
+     *
+     * <p>Space Complexity: O(n), where n is the upper limit of numbers to check for primality.
+     *
+     * <p>Algorithm Characteristics:
+     * - Uses the mathematical property of prime numbers.
+     * - Uses a boolean array (isPrime) to keep track of prime numbers.
+     *
+     * <p>Limitations:
+     * - The upper limit (uL) of numbers to check for primality must fit in an integer data type.
+     * - This method requires enough memory to hold a boolean array of size 'uL'.
+     * - The algorithm writes the result to a file, so it requires file write permissions and enough disk space.
+     *
+     * @throws IOException if an I/O error occurs when writing to the file
      */
+
     private void sundaramSieve() throws IOException {
         int k = (uL - 1) / 2;
         boolean[] isPrime = new boolean[k + 1];
@@ -118,6 +155,11 @@ public class primesGen implements Runnable {
         return fileName;
     }
 
+    /**
+     * Gets file.
+     *
+     * @return the file
+     */
     public File getFile() {
         return file;
     }

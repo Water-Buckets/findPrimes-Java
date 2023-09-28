@@ -74,7 +74,6 @@ public class Main {
                 }
                 output.close();
             } else if (threads > 1 && (methods == 0 || methods == 2 || methods == 4)) {
-                // yet to be done
                 int sqrtN = (int) Math.sqrt(n);
 
                 primesGenVec preSieve = new primesGenVec(sqrtN, methods, file);
