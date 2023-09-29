@@ -43,10 +43,27 @@ public class primesGenSeg extends primesGen {
     }
 
     /**
-     * This method implements the segmented version of the Eratosthenes sieve algorithm.
-     * It writes the prime numbers in the given range to the specified file.
+     * Implements the segmented version of the Sieve of Eratosthenes algorithm for finding all prime numbers within a given range.
      *
-     * @throws IOException If an I/O error occurs
+     * <p>This method generates all prime numbers between the given lower limit (lL) and upper limit (uL) and writes them into a file.
+     * It works by using a pre-sieved list of primes to mark off multiples within the range [lL, uL]. This version of the sieve is useful
+     * for generating primes in a specific interval, especially when the upper bound (uL) is large.
+     *
+     * <p>Time Complexity: O(n log log n), where n is the difference between the upper limit and lower limit of numbers to check for primality.
+     *
+     * <p>Space Complexity: O(n), where n is the difference between the upper limit and lower limit of numbers to check for primality.
+     *
+     * <p>Algorithm Characteristics:
+     * - Uses the mathematical property of prime numbers and their multiples.
+     * - Uses a boolean array (isPrime) to keep track of prime numbers within the range.
+     *
+     * <p>Limitations:
+     * - The upper limit (uL) and lower limit (lL) of numbers to check for primality must fit in an integer data type.
+     * - This method requires enough memory to hold a boolean array of size 'uL - lL + 1'.
+     * - The algorithm writes the result to a file, so it requires file write permissions and enough disk space.
+     * - It requires a pre-sieved list of primes up to the square root of the upper limit (uL).
+     *
+     * @throws IOException if an I/O error occurs when writing to the file
      */
     private void eratosthenesSieve() throws IOException {
         boolean[] isPrime = new boolean[uL - lL + 1];
@@ -67,10 +84,27 @@ public class primesGenSeg extends primesGen {
     }
 
     /**
-     * This method implements the segmented version of the Sundaram sieve algorithm.
-     * It writes the prime numbers in the given range to the specified file.
+     * Implements the segmented version of the Sieve of Sundaram algorithm for finding all prime numbers within a given range.
      *
-     * @throws IOException If an I/O error occurs
+     * <p>This method generates all prime numbers between the given lower limit (lL) and upper limit (uL) and writes them into a file.
+     * The Sieve of Sundaram works by eliminating certain numbers of the form i + j + 2ij where 1 <= i <= j from the list
+     * of natural numbers 1, 2, ..., n. The remaining numbers are doubled and incremented by one, giving all
+     * the odd prime numbers (and 2) below 2n + 2. This segmented version is useful for generating primes in a specific interval.
+     *
+     * <p>Time Complexity: O(n log n), where n is the difference between the upper limit and lower limit of numbers to check for primality.
+     *
+     * <p>Space Complexity: O(n), where n is the difference between the upper limit and lower limit of numbers to check for primality.
+     *
+     * <p>Algorithm Characteristics:
+     * - Uses the mathematical property of prime numbers.
+     * - Uses a boolean array (isPrime) to keep track of prime numbers within the range.
+     *
+     * <p>Limitations:
+     * - The upper limit (uL) and lower limit (lL) of numbers to check for primality must fit in an integer data type.
+     * - This method requires enough memory to hold a boolean array of size 'uL - lL + 1'.
+     * - The algorithm writes the result to a file, so it requires file write permissions and enough disk space.
+     *
+     * @throws IOException if an I/O error occurs when writing to the file
      */
     private void sundaramSieve() throws IOException {
         final int nNew = (uL - 1) / 2;

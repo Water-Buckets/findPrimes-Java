@@ -26,7 +26,6 @@ public class Main {
                 results.run();
                 results.outputToFile();
             } else if (threads > 1 && (methods == 1 || methods == 3)) {
-                // yet to be done
                 int sqrtN = (int) Math.sqrt(n);
 
                 primesGenVec preSieve = new primesGenVec(sqrtN, methods, file);
