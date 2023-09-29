@@ -1,4 +1,4 @@
-package primesGen;
+package PrimesGen;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -15,7 +15,7 @@ import java.util.Arrays;
  * Note: This class throws IOException if there is an error creating the file to which the prime numbers are written.
  * It also throws IllegalArgumentException if an invalid method is specified.
  */
-public class primesGen implements Runnable {
+public class PrimesGen implements Runnable {
     /**
      * The upper limit up to which prime numbers are to be generated.
      */
@@ -39,22 +39,41 @@ public class primesGen implements Runnable {
     /**
      * The constructor for the primesGen class.
      *
-     * @param u The upper limit for prime number generation.
-     * @param m The method to be used for prime number generation.
-     * @param f The name of the file where the prime numbers will be written.
+     * @param uL       The upper limit for prime number generation.
+     * @param method   The method to be used for prime number generation.
+     * @param fileName The name of the file where the prime numbers will be written.
      * @throws IOException              If there is an error creating the file.
      * @throws IllegalArgumentException If an invalid method is specified.
+     * @throws RuntimeException         If it was unable to create new file.
      */
-    public primesGen(int u, byte m, String f) throws IOException {
-        this.uL = u;
-        if (m >= 0 && m <= 4) {
-            this.method = m;
+    public PrimesGen(int uL, byte method, String fileName) throws IOException {
+        this.uL = uL;
+        if (method >= 0 && method <= 4) {
+            this.method = method;
         } else throw new IllegalArgumentException("Invaild method");
-        this.fileName = f;
-        this.file = new File(fileName);
+        this.fileName = fileName;
+        this.file = new File(this.fileName);
         if (!file.exists() && !file.createNewFile()) {
-            throw new RuntimeException("Unable to create new file: " + fileName);
+            throw new RuntimeException("Unable to create new file: " + this.fileName);
         }
+    }
+
+    /**
+     * Instantiates a new Primes gen.
+     *
+     * @param uL     The upper limit for prime number generation.
+     * @param method The method to be used for prime number generation.
+     * @param file   A File object representing the file to which the prime numbers are written.
+     * @throws IllegalArgumentException If an invalid method is specified.
+     * @throws RuntimeException         If it was unable to create new file.
+     */
+    public PrimesGen(int uL, byte method, File file) {
+        this.uL = uL;
+        this.file = file;
+        if (method >= 0 && method <= 4) {
+            this.method = method;
+        } else throw new IllegalArgumentException("Invaild method");
+        this.fileName = file.getName();
     }
 
     /**

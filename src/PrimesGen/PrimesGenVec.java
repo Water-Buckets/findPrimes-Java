@@ -1,9 +1,6 @@
-package primesGen;
+package PrimesGen;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +13,7 @@ import java.util.List;
  * The method to be used is specified by a byte value (0-4) passed to the constructor.
  * The class also includes a method to retrieve the List of generated prime numbers and a method to write the prime numbers to a file.
  */
-public class primesGenVec extends primesGen {
+public class PrimesGenVec extends PrimesGen {
     /**
      * A List of generated prime numbers.
      */
@@ -25,14 +22,27 @@ public class primesGenVec extends primesGen {
     /**
      * The constructor for the primesGenVec class.
      *
-     * @param u The upper limit for prime number generation.
-     * @param m The method to be used for prime number generation.
-     * @param f The name of the file where the prime numbers will be written.
+     * @param uL       The upper limit for prime number generation.
+     * @param method   The method to be used for prime number generation.
+     * @param fileName The name of the file where the prime numbers will be written.
      * @throws IllegalArgumentException If an invalid method is specified.
      * @throws IOException              If there is an error creating the file.
      */
-    public primesGenVec(int u, byte m, String f) throws IOException {
-        super(u, m, f);
+    public PrimesGenVec(int uL, byte method, String fileName) throws IOException {
+        super(uL, method, fileName);
+    }
+
+    /**
+     * The constructor for the primesGen class.
+     *
+     * @param uL     The upper limit for prime number generation.
+     * @param method The method to be used for prime number generation.
+     * @param file   The file where the prime numbers will be written.
+     * @throws IllegalArgumentException If an invalid method is specified.
+     * @throws RuntimeException         If it was unable to create new file.
+     */
+    public PrimesGenVec(int uL, byte method, File file) {
+        super(uL, method, file);
     }
 
     /**

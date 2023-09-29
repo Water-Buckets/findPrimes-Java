@@ -1,9 +1,6 @@
-package primesGen;
+package PrimesGen;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +9,7 @@ import java.util.List;
  * This class extends the primesGen class and generates prime numbers in a given range using segmented sieve algorithms.
  * It supports both the Eratosthenes and Sundaram sieve algorithms.
  */
-public class primesGenSeg extends primesGen {
+public class PrimesGenSeg extends PrimesGen {
     /**
      * Lower limit of the range
      */
@@ -26,20 +23,41 @@ public class primesGenSeg extends primesGen {
     /**
      * Constructor for primesGenSeg class.
      *
-     * @param l   Lower limit of the range
-     * @param u   Upper limit of the range
-     * @param pSP List of pre-sieved primes
-     * @param m   Mode of operation
-     * @param f   File name to write the output
-     * @throws IOException If an I/O error occurs
+     * @param lL              Lower limit of the range
+     * @param uL              Upper limit of the range
+     * @param preSievedPrimes List of pre-sieved primes
+     * @param method          Mode of operation
+     * @param fileName        File name to write the output
+     * @throws IOException              If an I/O error occurs
+     * @throws IllegalArgumentException If an invalid method is specified.
+     *                                  Or lL is bogger than uL.
+     * @throws RuntimeException         If it was unable to create new file.
      */
-    public primesGenSeg(int l, int u, List<Integer> pSP, byte m, String f) throws IOException {
-        super(u, m, f);
-        if (l >= u) {
-            throw new IllegalArgumentException("l should be smaller than u.");
-        }
-        this.lL = l;
-        this.preSievedPrimes = pSP;
+    public PrimesGenSeg(int lL, int uL, List<Integer> preSievedPrimes, byte method, String fileName) throws IOException {
+        super(uL, method, fileName);
+        if (lL >= uL) {
+            throw new IllegalArgumentException("lL should be smaller than uL.");
+        } else this.lL = lL;
+        this.preSievedPrimes = preSievedPrimes;
+    }
+
+    /**
+     * Constructor for primesGenSeg class.
+     *
+     * @param lL              Lower limit of the range
+     * @param uL              Upper limit of the range
+     * @param preSievedPrimes List of pre-sieved primes
+     * @param method          Mode of operation
+     * @param file            File to write the output
+     * @throws IllegalArgumentException If an invalid method is specified.
+     * @throws RuntimeException         If it was unable to create new file.
+     */
+    public PrimesGenSeg(int lL, int uL, List<Integer> preSievedPrimes, byte method, File file) {
+        super(uL, method, file);
+        if (lL >= uL) {
+            throw new IllegalArgumentException("lL should be smaller than uL.");
+        } else this.lL = lL;
+        this.preSievedPrimes = preSievedPrimes;
     }
 
     /**

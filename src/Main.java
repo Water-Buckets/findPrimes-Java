@@ -1,7 +1,7 @@
-import primesGen.primesGen;
-import primesGen.primesGenSeg;
-import primesGen.primesGenVec;
-import primesGen.primesGenVecSeg;
+import PrimesGen.PrimesGen;
+import PrimesGen.PrimesGenSeg;
+import PrimesGen.PrimesGenVec;
+import PrimesGen.PrimesGenVecSeg;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -19,22 +19,22 @@ public class Main {
             int n = Integer.parseInt(args[2]);
             String file = args[3];
             if (threads == 1 && (methods == 1 || methods == 3)) {
-                primesGen results = new primesGen(n, methods, file);
+                PrimesGen results = new PrimesGen(n, methods, file);
                 results.run();
             } else if (threads == 1 && (methods == 0 || methods == 2 || methods == 4)) {
-                primesGenVec results = new primesGenVec(n, methods, file);
+                PrimesGenVec results = new PrimesGenVec(n, methods, file);
                 results.run();
                 results.outputToFile();
             } else if (threads > 1 && (methods == 1 || methods == 3)) {
                 int sqrtN = (int) Math.sqrt(n);
 
-                primesGenVec preSieve = new primesGenVec(sqrtN, methods, file);
+                PrimesGenVec preSieve = new PrimesGenVec(sqrtN, methods, file);
                 Thread preSievingThread = new Thread(preSieve, "Pre-sieveing thread.");
                 preSievingThread.start();
 
                 int perThread = (n - sqrtN) / threads;
                 List<Thread> threadList = new ArrayList<>();
-                List<primesGenSeg> results = new ArrayList<>();
+                List<PrimesGenSeg> results = new ArrayList<>();
 
                 preSievingThread.join();
                 List<Integer> preSievedPrimes = preSieve.getPrimes();
@@ -48,7 +48,7 @@ public class Main {
                         uL = n;
                     }
 
-                    results.add(new primesGenSeg(lL, uL, preSievedPrimes, methods, fileName));
+                    results.add(new PrimesGenSeg(lL, uL, preSievedPrimes, methods, fileName));
 
                     threadList.add(new Thread(results.get(i), fileName));
                     threadList.get(i).start();
@@ -62,6 +62,9 @@ public class Main {
                     threadList.get(i).join();
                     String fileName = ".temp+" + i + "+" + file;
                     File tempFile = new File(fileName);
+                    if (!tempFile.exists() && !tempFile.createNewFile()) {
+                        throw new RuntimeException("Unable to create new file: " + fileName);
+                    }
                     BufferedReader reader = new BufferedReader(new FileReader(tempFile));
                     String line;
                     while ((line = reader.readLine()) != null) {
@@ -75,14 +78,14 @@ public class Main {
             } else if (threads > 1 && (methods == 0 || methods == 2 || methods == 4)) {
                 int sqrtN = (int) Math.sqrt(n);
 
-                primesGenVec preSieve = new primesGenVec(sqrtN, methods, file);
+                PrimesGenVec preSieve = new PrimesGenVec(sqrtN, methods, file);
                 Thread preSievingThread = new Thread(preSieve, "Pre-sieveing thread.");
                 preSievingThread.start();
 
                 int perThread = (n - sqrtN) / threads;
 
                 List<Thread> threadList = new ArrayList<>();
-                List<primesGenVecSeg> results = new ArrayList<>();
+                List<PrimesGenVecSeg> results = new ArrayList<>();
 
                 preSievingThread.join();
                 List<Integer> preSievedPrimes = preSieve.getPrimes();
@@ -96,7 +99,7 @@ public class Main {
                         uL = n;
                     }
 
-                    results.add(new primesGenVecSeg(lL, uL, preSievedPrimes, methods, fileName));
+                    results.add(new PrimesGenVecSeg(lL, uL, preSievedPrimes, methods, fileName));
 
                     threadList.add(new Thread(results.get(i), fileName));
                     threadList.get(i).start();
